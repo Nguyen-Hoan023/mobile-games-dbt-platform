@@ -1,6 +1,6 @@
 # Mobile Games Analytics Platform 🎮
 
-![Project Architecture](images/architecture.*)
+![Project Architecture](images/architecture.png)
 
 An end-to-end modern data stack project analyzing a mobile game catalog to extract market insights, answer business questions, and power interactive dashboards.
 
@@ -10,7 +10,7 @@ This platform processes mobile app store metadata to deliver insights on monetiz
 
 1. **Source**: Microsoft SQL Server containing raw `mobile_games.games` dataset.
 2. **Replication**: **Fivetran** securely replicates source data into the data warehouse.
-   *(See [Fivetran Connection Setup](images/fivetran-sql.*))*
+   *(See [Fivetran Connection Setup](images/fivetran-sql.png))*
 3. **Warehouse**: **Supabase (PostgreSQL)** serves as the analytical backend.
 4. **Transformation**: **dbt Core** cleans, enriches, and models the data through a 3-layer architecture (Staging → Intermediate → Marts).
 5. **Analytics & BI**: **dbt Charts** visualizes the 11 analytical marts to answer 15 specific stakeholder questions.
@@ -29,7 +29,7 @@ This platform processes mobile app store metadata to deliver insights on monetiz
 
 We use dbt Docs to maintain a comprehensive, navigable data catalog and lineage graph for the entire pipeline.
 
-![dbt Docs Preview](images/dbt-docs.*)
+![dbt Docs Preview](images/dbt%20docs.png)
 
 ## Quick Start
 

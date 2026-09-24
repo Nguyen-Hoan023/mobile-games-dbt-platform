@@ -17,7 +17,7 @@ We enforce the following core assertions:
 
 Before transformations begin, we verify that Fivetran successfully replicated the source data from SQL Server to Supabase PostgreSQL.
 
-![Test Results from Supabase](../images/test-results.*)
+![Test Results from Supabase](../images/test-results.png)
 *(Screenshot showing successful data availability in Supabase after Fivetran ingestion)*
 
 ## Running Tests
