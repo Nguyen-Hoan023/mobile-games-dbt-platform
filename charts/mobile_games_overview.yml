@@ -1,0 +1,168 @@
+title: "Mobile Games Overview"
+
+notes: >
+  Executive overview of the Mobile Games catalog.
+  Ratings and review counts are used as popularity proxies.
+  Price is used as a monetization proxy because the dataset does not contain
+  transaction or revenue data.
+
+source: analytics
+
+queries:
+
+  catalog_kpis:
+    sql: |
+      SELECT
+          COUNT(*) AS game_count,
+          ROUND(AVG(average_user_rating), 2) AS average_rating,
+          SUM(COALESCE(user_rating_count, 0)) AS total_review_count
+      FROM dbt_dev.mart_game_performance
+
+  genre_performance:
+    sql: |
+      SELECT
+          primary_genre,
+          games,
+          avg_rating,
+          avg_review_count
+      FROM dbt_dev.mart_genre_performance
+      ORDER BY avg_review_count DESC
+
+  pricing_mix:
+    sql: |
+      WITH free_share AS (
+          SELECT
+              pct_of_total
+          FROM dbt_dev.mart_pricing
+          WHERE pricing_model = 'Free'
+      )
+
+      SELECT
+          'Free' AS pricing_model,
+          pct_of_total
+      FROM free_share
+
+      UNION ALL
+
+      SELECT
+          'Paid' AS pricing_model,
+          ROUND(100.0 - pct_of_total, 2) AS pct_of_total
+      FROM free_share
+
+      ORDER BY pct_of_total DESC
+
+  release_trends:
+    sql: |
+      SELECT
+          release_year,
+          games_released,
+          avg_rating
+      FROM dbt_dev.mart_yearly_release_trends
+      ORDER BY release_year
+
+  top_developers:
+    sql: |
+      SELECT
+          developer,
+          games,
+          avg_rating,
+          total_reviews,
+          q2_rank
+      FROM dbt_dev.mart_developer_performance
+      WHERE q2_eligible = TRUE
+        AND q2_rank <= 10
+      ORDER BY q2_rank
+
+
+charts:
+
+  game_count_kpi:
+    type: kpi
+    query: catalog_kpis
+    label: "Games in catalog"
+    value: game_count
+    style:
+      value:
+        format: integer
+
+  average_rating_kpi:
+    type: kpi
+    query: catalog_kpis
+    label: "Average user rating"
+    value: average_rating
+    style:
+      value:
+        format: number
+
+  total_reviews_kpi:
+    type: kpi
+    query: catalog_kpis
+    label: "Total review count"
+    value: total_review_count
+    style:
+      value:
+        format: integer
+
+  genre_rating:
+    type: bar
+    query: genre_performance
+    title: "Average rating by genre"
+    x: primary_genre
+    y: avg_rating
+    sort:
+      by: avg_rating
+      order: desc
+
+  genre_reviews:
+    type: bar
+    query: genre_performance
+    title: "Average review count by genre"
+    x: primary_genre
+    y: avg_review_count
+    sort:
+      by: avg_review_count
+      order: desc
+
+  release_trend:
+    type: line
+    query: release_trends
+    title: "Games released by year"
+    x: release_year
+    y: games_released
+
+  top_developers:
+    type: bar
+    query: top_developers
+    title: "Top 10 developers by game count"
+    x: developer
+    y: games
+    sort:
+      by: games
+      order: desc
+    style:
+      orientation: horizontal
+
+  pricing_mix:
+    type: bar
+    query: pricing_mix
+    title: "Catalog pricing mix"
+    x: pricing_model
+    y: pct_of_total
+
+
+rows:
+
+  - cols:
+      - game_count_kpi
+      - average_rating_kpi
+      - total_reviews_kpi
+
+  - cols:
+      - genre_rating
+      - genre_reviews
+
+  - cols:
+      - release_trend
+      - top_developers
+
+  - pricing_mix

@@ -1,0 +1,533 @@
+title: "Mobile Games Research Board"
+
+notes: >
+  Full research board covering the 15 Mobile Games business questions.
+  Review counts are used as popularity proxies and price is used as a
+  monetization proxy because the dataset does not contain transaction
+  or revenue data.
+
+source: analytics
+
+queries:
+
+  catalog_kpis:
+    sql: |
+      SELECT
+          COUNT(*) AS game_count,
+          ROUND(AVG(average_user_rating), 2) AS average_rating,
+          SUM(COALESCE(user_rating_count, 0)) AS total_review_count
+      FROM dbt_dev.mart_game_performance
+
+  q1_free_paid:
+    sql: |
+      WITH free_share AS (
+          SELECT
+              pct_of_total
+          FROM dbt_dev.mart_pricing
+          WHERE pricing_model = 'Free'
+          LIMIT 1
+      )
+
+      SELECT
+          'Free' AS pricing_model,
+          pct_of_total / 100.0 AS pct_ratio
+      FROM free_share
+
+      UNION ALL
+
+      SELECT
+          'Paid' AS pricing_model,
+          (100.0 - pct_of_total) / 100.0 AS pct_ratio
+      FROM free_share
+
+      ORDER BY pct_ratio DESC
+
+  q2_top_developers:
+    sql: |
+      SELECT
+          developer,
+          games,
+          avg_rating,
+          total_reviews,
+          q2_rank
+      FROM dbt_dev.mart_developer_performance
+      WHERE q2_eligible = TRUE
+        AND q2_rank <= 10
+      ORDER BY q2_rank
+
+  q3_genre_performance:
+    sql: |
+      SELECT
+          primary_genre,
+          games,
+          games_with_rating,
+          avg_rating,
+          avg_review_count
+      FROM dbt_dev.mart_genre_performance
+      ORDER BY games DESC
+
+  q4_release_2019:
+    sql: |
+      SELECT
+          primary_genre,
+          games_released,
+          avg_rating
+      FROM dbt_dev.mart_release_2019_by_genre
+      ORDER BY games_released DESC
+
+  q5_price_bands:
+    sql: |
+      SELECT
+          price_band,
+          games,
+          pct_of_total / 100.0 AS pct_ratio,
+          avg_rating
+      FROM dbt_dev.mart_pricing
+      ORDER BY price_band_order
+
+  q6_high_rated_games:
+    sql: |
+      SELECT
+          name,
+          developer,
+          primary_genre,
+          average_user_rating,
+          user_rating_count,
+          price_usd,
+          q6_rank
+      FROM dbt_dev.mart_game_performance
+      WHERE q6_eligible = TRUE
+        AND q6_rank <= 20
+      ORDER BY q6_rank
+
+  q7_age_rating:
+    sql: |
+      SELECT
+          primary_genre,
+          '4+' AS age_rating,
+          age_4_plus AS games
+      FROM dbt_dev.mart_genre_performance
+
+      UNION ALL
+
+      SELECT
+          primary_genre,
+          '9+' AS age_rating,
+          age_9_plus AS games
+      FROM dbt_dev.mart_genre_performance
+
+      UNION ALL
+
+      SELECT
+          primary_genre,
+          '12+' AS age_rating,
+          age_12_plus AS games
+      FROM dbt_dev.mart_genre_performance
+
+      UNION ALL
+
+      SELECT
+          primary_genre,
+          '17+' AS age_rating,
+          age_17_plus AS games
+      FROM dbt_dev.mart_genre_performance
+
+      ORDER BY primary_genre, age_rating
+
+  q8_size_by_genre:
+    sql: |
+      SELECT
+          primary_genre,
+          games,
+          avg_size_mb,
+          max_size_mb
+      FROM dbt_dev.mart_size_by_genre
+      ORDER BY avg_size_mb DESC
+
+  q9_localization:
+    sql: |
+      SELECT
+          primary_genre,
+          games,
+          avg_language_count,
+          max_language_count
+      FROM dbt_dev.mart_localization
+      ORDER BY avg_language_count DESC
+
+  q10_keywords:
+    sql: |
+      SELECT
+          primary_genre,
+          'Puzzle' AS keyword,
+          mentions_puzzle AS mentions
+      FROM dbt_dev.mart_content_analysis
+
+      UNION ALL
+
+      SELECT
+          primary_genre,
+          'Multiplayer' AS keyword,
+          mentions_multiplayer AS mentions
+      FROM dbt_dev.mart_content_analysis
+
+      ORDER BY primary_genre, keyword
+
+  q10_content_detail:
+    sql: |
+      SELECT
+          primary_genre,
+          total_games,
+          mentions_puzzle,
+          mentions_multiplayer,
+          mentions_either
+      FROM dbt_dev.mart_content_analysis
+      ORDER BY mentions_either DESC
+
+  q11_top_games:
+    sql: |
+      SELECT
+          primary_genre,
+          name,
+          developer,
+          average_user_rating,
+          user_rating_count,
+          q11_rank
+      FROM dbt_dev.mart_game_performance
+      WHERE q11_eligible = TRUE
+        AND q11_rank <= 3
+      ORDER BY primary_genre, q11_rank
+
+  q12_release_trends:
+    sql: |
+      SELECT
+          release_year,
+          games_released,
+          avg_rating,
+          prev_year_games,
+          yoy_growth_pct,
+          yoy_growth_pct / 100.0 AS yoy_growth_ratio
+      FROM dbt_dev.mart_yearly_release_trends
+      ORDER BY release_year
+
+  q13_developer_consistency:
+    sql: |
+      SELECT
+          developer,
+          q13_games,
+          q13_avg_rating,
+          q13_min_rating,
+          q13_max_rating,
+          q13_rating_stdev,
+          q13_rank
+      FROM dbt_dev.mart_developer_performance
+      WHERE q13_eligible = TRUE
+      ORDER BY q13_rank
+      LIMIT 25
+
+  q14_size_rating:
+    sql: |
+      SELECT
+          size_band,
+          games,
+          avg_rating,
+          avg_review_count
+      FROM dbt_dev.mart_size_vs_rating
+      ORDER BY size_band_order
+
+  q15_genre_tags:
+    sql: |
+      SELECT
+          genre_tag,
+          games,
+          avg_rating,
+          genre_rank
+      FROM dbt_dev.mart_genre_tags
+      ORDER BY genre_rank
+
+
+charts:
+
+  game_count_kpi:
+    type: kpi
+    query: catalog_kpis
+    label: "Games in catalog"
+    value: game_count
+    style:
+      value:
+        format: integer
+
+  average_rating_kpi:
+    type: kpi
+    query: catalog_kpis
+    label: "Average user rating"
+    value: average_rating
+    style:
+      value:
+        format: number
+
+  total_reviews_kpi:
+    type: kpi
+    query: catalog_kpis
+    label: "Total review count"
+    value: total_review_count
+    style:
+      value:
+        format: integer
+
+  q1_free_paid:
+    type: bar
+    query: q1_free_paid
+    title: "Free versus paid catalog share"
+    x: pricing_model
+    y: pct_ratio
+    style:
+      number_format: percent
+
+  q2_top_developers:
+    type: bar
+    query: q2_top_developers
+    title: "Top 10 developers by game count"
+    x: developer
+    y: games
+    sort:
+      by: games
+      order: desc
+    style:
+      orientation: horizontal
+      number_format: integer
+
+  q3_rating:
+    type: bar
+    query: q3_genre_performance
+    title: "Average rating by genre"
+    x: primary_genre
+    y: avg_rating
+    sort:
+      by: avg_rating
+      order: desc
+
+  q3_reviews:
+    type: bar
+    query: q3_genre_performance
+    title: "Average review count by genre"
+    x: primary_genre
+    y: avg_review_count
+    sort:
+      by: avg_review_count
+      order: desc
+    style:
+      number_format: integer
+
+  q4_release_2019:
+    type: bar
+    query: q4_release_2019
+    title: "Games released in 2019 by genre"
+    x: primary_genre
+    y: games_released
+    sort:
+      by: games_released
+      order: desc
+    style:
+      number_format: integer
+
+  q5_price_bands:
+    type: bar
+    query: q5_price_bands
+    title: "Game price distribution"
+    x: price_band
+    y: pct_ratio
+    style:
+      number_format: percent
+
+  q6_high_rated:
+    type: table
+    query: q6_high_rated_games
+    title: "Top rated games with meaningful review volume"
+    style:
+      columns:
+        average_user_rating:
+          format: number
+        user_rating_count:
+          format: integer
+        price_usd:
+          format: currency
+
+  q7_age_genre:
+    type: heatmap
+    query: q7_age_rating
+    x: primary_genre
+    y: age_rating
+    color: games
+
+  q8_size:
+    type: bar
+    query: q8_size_by_genre
+    title: "Average game size by genre"
+    x: primary_genre
+    y: avg_size_mb
+    sort:
+      by: avg_size_mb
+      order: desc
+
+  q9_localization:
+    type: bar
+    query: q9_localization
+    title: "Average languages supported by genre"
+    x: primary_genre
+    y: avg_language_count
+    sort:
+      by: avg_language_count
+      order: desc
+
+  q10_keyword_heatmap:
+    type: heatmap
+    query: q10_keywords
+    x: primary_genre
+    y: keyword
+    color: mentions
+
+  q10_content_table:
+    type: table
+    query: q10_content_detail
+    title: "Content keyword detail"
+    style:
+      columns:
+        total_games:
+          format: integer
+        mentions_puzzle:
+          format: integer
+        mentions_multiplayer:
+          format: integer
+        mentions_either:
+          format: integer
+
+  q11_top_games:
+    type: table
+    query: q11_top_games
+    title: "Top 3 games in each genre"
+    style:
+      columns:
+        average_user_rating:
+          format: number
+        user_rating_count:
+          format: integer
+
+  q12_release_trend:
+    type: line
+    query: q12_release_trends
+    title: "Games released by year"
+    x: release_year
+    y: games_released
+    style:
+      number_format: integer
+
+  q12_rating_trend:
+    type: line
+    query: q12_release_trends
+    title: "Average rating by release year"
+    x: release_year
+    y: avg_rating
+
+  q12_yoy:
+    type: bar
+    query: q12_release_trends
+    title: "Year-over-year release growth"
+    x: release_year
+    y: yoy_growth_ratio
+    style:
+      axis_y:
+        labels:
+          format: ".1%"
+
+  q13_consistency:
+    type: table
+    query: q13_developer_consistency
+    title: "Developer rating consistency"
+    style:
+      columns:
+        q13_games:
+          format: integer
+        q13_avg_rating:
+          format: number
+        q13_min_rating:
+          format: number
+        q13_max_rating:
+          format: number
+        q13_rating_stdev:
+          format: number
+
+  q14_size_rating:
+    type: bar
+    query: q14_size_rating
+    title: "Average rating by game size"
+    x: size_band
+    y: avg_rating
+
+  q15_genre_tags:
+    type: bar
+    query: q15_genre_tags
+    title: "Top 15 genre tags"
+    x: genre_tag
+    y: games
+    sort:
+      by: genre_rank
+      order: asc
+    style:
+      orientation: horizontal
+      number_format: integer
+
+
+tabs:
+
+  items:
+
+    - title: "Executive"
+      rows:
+        - cols:
+            - game_count_kpi
+            - average_rating_kpi
+            - total_reviews_kpi
+
+        - cols:
+            - q1_free_paid
+            - q5_price_bands
+
+        - cols:
+            - q3_rating
+            - q3_reviews
+
+        - cols:
+            - q12_release_trend
+            - q12_rating_trend
+
+    - title: "Market and Portfolio"
+      rows:
+        - cols:
+            - q2_top_developers
+            - q4_release_2019
+
+        - cols:
+            - q8_size
+            - q9_localization
+
+        - q15_genre_tags
+
+        - q13_consistency
+
+    - title: "Quality and Trends"
+      rows:
+        - cols:
+            - q7_age_genre
+            - q14_size_rating
+
+        - q6_high_rated
+
+        - q11_top_games
+
+        - q12_yoy
+
+    - title: "Content and Discovery"
+      rows:
+        - q10_keyword_heatmap
+
+        - q10_content_table
