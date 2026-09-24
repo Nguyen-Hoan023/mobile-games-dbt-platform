@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: mobile_games
+    schema: xom_mobile_games_mobile_games
+    description: "Raw mobile games data replicated from SQL Server by Fivetran"
+
+    tables:
+      - name: games
+        description: "Raw mobile games dataset"
+
+        columns:
+          - name: app_id
+            description: "Unique application identifier"
+            tests:
+              - not_null
+              - unique

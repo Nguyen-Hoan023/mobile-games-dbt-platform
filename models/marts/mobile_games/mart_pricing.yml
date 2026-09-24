@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: mart_pricing
+    description: >
+      Pricing analysis mart for Q1 and Q5 of the Xom Mobile Games
+      business questions. One row represents one price band.
+
+    columns:
+      - name: price_band
+        description: "Price bucket defined by the Xom business requirement"
+        tests:
+          - not_null
+          - unique
+
+      - name: pricing_model
+        description: "Free or Paid pricing classification"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Free', 'Paid']
+
+      - name: price_band_order
+        description: "Display order for price bands"
+        tests:
+          - not_null
+          - unique
+
+      - name: games
+        description: "Number of games in the price band"
+        tests:
+          - not_null
+
+      - name: pct_of_total
+        description: "Percentage of all games represented by the price band"
+        tests:
+          - not_null
+
+      - name: avg_rating
+        description: "Average user rating for games in the price band"

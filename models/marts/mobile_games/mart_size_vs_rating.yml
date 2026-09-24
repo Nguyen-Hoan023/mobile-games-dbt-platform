@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: mart_size_vs_rating
+    description: >
+      Game size and rating comparison mart for Xom business question Q14.
+      The grain is one row per size band. The model compares average
+      rating and average review count across three game-size groups.
+
+    columns:
+      - name: size_band
+        description: "Game size category defined by the Q14 business requirement"
+        tests:
+          - not_null
+          - unique
+
+      - name: size_band_order
+        description: "Display order of the size bands"
+        tests:
+          - not_null
+          - unique
+
+      - name: games
+        description: "Number of games in the size band"
+        tests:
+          - not_null
+
+      - name: avg_rating
+        description: >
+          Average user rating among games in the size band.
+          Only games with a non-null rating are included.
+
+        tests:
+          - not_null
+
+      - name: avg_review_count
+        description: >
+          Average user rating count among games in the size band.
+          Only games with a non-null rating are included.
+
+        tests:
+          - not_null

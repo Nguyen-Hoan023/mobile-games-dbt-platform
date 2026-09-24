@@ -1,0 +1,99 @@
+version: 2
+
+models:
+  - name: mart_developer_performance
+    description: >
+      Developer-level performance mart for Xom Mobile Games business
+      questions Q2 and Q13. The grain is one row per developer.
+
+      Q2 summarizes the overall developer portfolio using total game count,
+      average rating, total reviews, and a rank based on number of games.
+
+      Q13 evaluates developer rating consistency using only games with
+      a non-null rating and at least 100 reviews, requiring at least
+      five qualifying games per developer. Consistency is measured using
+      rating standard deviation.
+
+    columns:
+      - name: developer
+        description: "Developer or publisher name; one row per developer"
+        tests:
+          - not_null
+          - unique
+
+      # -----------------------------
+      # Q2: Top 10 developers
+      # -----------------------------
+
+      - name: games
+        description: "Total number of games associated with the developer"
+        tests:
+          - not_null
+
+      - name: avg_rating
+        description: >
+          Average user rating across the developer's games that have
+          a non-null rating.
+
+      - name: total_reviews
+        description: >
+          Total user rating count across all games of the developer.
+
+      - name: q2_rank
+        description: >
+          Overall developer rank for Q2, ordered by total number of games
+          descending and developer name as the tie-breaker.
+        tests:
+          - not_null
+
+      - name: q2_eligible
+        description: >
+          True when the developer is within the top 10 developers
+          ranked by number of games.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      # -----------------------------
+      # Q13: Developer consistency
+      # -----------------------------
+
+      - name: q13_games
+        description: >
+          Number of games used for Q13 after filtering to games with
+          a non-null rating and at least 100 reviews.
+
+      - name: q13_avg_rating
+        description: >
+          Average rating among the games qualifying for Q13.
+
+      - name: q13_min_rating
+        description: >
+          Minimum rating among the games qualifying for Q13.
+
+      - name: q13_max_rating
+        description: >
+          Maximum rating among the games qualifying for Q13.
+
+      - name: q13_rating_stdev
+        description: >
+          Sample standard deviation of rating among the games qualifying
+          for Q13. Lower values indicate more stable ratings.
+
+      - name: q13_rank
+        description: >
+          Developer ranking for Q13 ordered by rating standard deviation
+          ascending, average rating descending, and developer name.
+          Null when the developer does not meet the Q13 eligibility criteria.
+
+      - name: q13_eligible
+        description: >
+          True when the developer has at least five games meeting the
+          Q13 conditions of non-null rating and at least 100 reviews.
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]

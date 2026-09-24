@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: mart_release_2019_by_genre
+    description: >
+      Release analysis mart for Xom business question Q4.
+      The grain is one row per primary genre for games released
+      during calendar year 2019.
+
+    columns:
+      - name: primary_genre
+        description: "Primary genre of games released in 2019"
+        tests:
+          - not_null
+          - unique
+
+      - name: games_released
+        description: "Number of games released in 2019 for the primary genre"
+        tests:
+          - not_null
+
+      - name: avg_rating
+        description: >
+          Average user rating for games released in 2019 within the
+          primary genre. May be null when no released game has a rating.

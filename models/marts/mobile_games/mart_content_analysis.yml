@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: mart_content_analysis
+    description: >
+      Content keyword analysis mart for Xom business question Q10.
+      The grain is one row per primary genre.
+
+    columns:
+      - name: primary_genre
+        description: "Primary genre of the games"
+        tests:
+          - not_null
+          - unique
+
+      - name: total_games
+        description: "Total number of games within the primary genre"
+        tests:
+          - not_null
+
+      - name: mentions_puzzle
+        description: "Number of games whose description contains the keyword puzzle"
+        tests:
+          - not_null
+
+      - name: mentions_multiplayer
+        description: >
+          Number of games whose description contains the keyword multiplayer.
+        tests:
+          - not_null
+
+      - name: mentions_either
+        description: >
+          Number of games whose description contains either puzzle
+          or multiplayer.
+        tests:
+          - not_null

@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: mart_game_performance
+    description: >
+      Game-level performance mart for Xom business questions Q6 and Q11.
+      Each row represents one game. The model provides global ranking
+      eligibility for Q6 and genre-level ranking eligibility for Q11.
+
+    columns:
+      - name: app_id
+        description: "Unique application identifier"
+        tests:
+          - not_null
+          - unique
+
+      - name: name
+        description: "Game name"
+
+      - name: developer
+        description: "Game developer or publisher"
+
+      - name: primary_genre
+        description: "Primary genre of the game"
+        tests:
+          - not_null
+
+      - name: average_user_rating
+        description: >
+          Average user rating. May be null for games without ratings.
+
+      - name: user_rating_count
+        description: >
+          Number of user ratings/reviews associated with the game.
+          May be null for unrated games.
+
+      - name: price_usd
+        description: "Game price in USD"
+
+      - name: q6_eligible
+        description: >
+          True when the game satisfies Q6 criteria:
+          more than 10,000 reviews and a non-null rating.
+        tests:
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: q6_rank
+        description: >
+          Global game ranking for Q6 based on average rating,
+          review count, and game name. Null for non-eligible games.
+
+      - name: q11_eligible
+        description: >
+          True when the game satisfies Q11 criteria:
+          at least 1,000 reviews and a non-null rating.
+        tests:
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: q11_rank
+        description: >
+          Ranking within primary_genre for Q11. Null for non-eligible games.

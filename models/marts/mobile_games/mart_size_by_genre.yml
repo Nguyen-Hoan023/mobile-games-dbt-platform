@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: mart_size_by_genre
+    description: >
+      Game size analysis mart for Xom business question Q8.
+      The grain is one row per primary genre for games with
+      non-null size information. Size metrics are reported in MB.
+
+    columns:
+      - name: primary_genre
+        description: "Primary genre of the games"
+        tests:
+          - not_null
+          - unique
+
+      - name: games
+        description: "Number of games with non-null size information in the primary genre"
+        tests:
+          - not_null
+
+      - name: avg_size_mb
+        description: >
+          Average game size in megabytes for the primary genre.
+          Calculated from size_in_bytes before conversion to MB.
+        tests:
+          - not_null
+
+      - name: max_size_mb
+        description: >
+          Maximum game size in megabytes for the primary genre.
+          Calculated from size_in_bytes before conversion to MB.
+        tests:
+          - not_null

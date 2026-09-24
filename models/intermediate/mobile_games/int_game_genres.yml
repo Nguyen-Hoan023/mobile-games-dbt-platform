@@ -1,0 +1,18 @@
+version: 2
+
+models:
+  - name: int_game_genres
+    description: >
+      One row per game and genre tag, created by splitting the
+      comma-separated genres field from the mobile games dataset.
+
+    columns:
+      - name: app_id
+        description: "Unique application identifier from the source game"
+        tests:
+          - not_null
+
+      - name: genre_tag
+        description: "Normalized genre tag assigned to the game"
+        tests:
+          - not_null

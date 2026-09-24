@@ -1,0 +1,30 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# dbt generated files
+target/
+dbt_packages/
+logs/
+
+# Local dbt state
+.partial_parse.msgpack
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Power BI local file (not part of the dbt Charts project)
+*.pbix
+*.pbit

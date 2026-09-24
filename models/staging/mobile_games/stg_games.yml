@@ -1,0 +1,12 @@
+version: 2
+
+models:
+  - name: stg_games
+    description: "Staging model for mobile games data"
+
+    columns:
+      - name: app_id
+        description: "Unique application identifier"
+        tests:
+          - not_null
+          - unique

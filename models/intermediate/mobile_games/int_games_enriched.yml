@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: int_games_enriched
+    description: >
+      Enriched mobile game dataset used as the reusable intermediate layer
+      for downstream analytical marts and the 15 Xom business questions.
+
+    columns:
+      - name: app_id
+        description: "Unique application identifier"
+        tests:
+          - not_null
+          - unique
+
+      - name: is_free
+        description: "True when the game price is 0 USD"
+        tests:
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: is_rated
+        description: "True when both average rating and rating count are available"
+        tests:
+          - accepted_values:
+              arguments:
+                values: [true, false]
+
+      - name: release_year
+        description: "Year extracted from release_date"
+
+      - name: language_count
+        description: "Number of supported languages inferred from the comma-separated languages field"
+
+      - name: size_mb
+        description: "Game size converted from bytes to megabytes"

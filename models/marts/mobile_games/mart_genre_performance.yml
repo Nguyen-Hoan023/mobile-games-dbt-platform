@@ -1,0 +1,44 @@
+version: 2
+
+models:
+  - name: mart_genre_performance
+    description: >
+      Genre performance mart for the Xom Mobile Games business questions Q3
+      and Q7. The model contains one row per primary genre and summarizes
+      game volume, rating coverage, average rating, average review count,
+      and the distribution of games across age-rating groups.
+
+    columns:
+      - name: primary_genre
+        description: "Primary genre assigned to each game"
+        tests:
+          - not_null
+          - unique
+
+      - name: games
+        description: "Total number of games in the primary genre"
+        tests:
+          - not_null
+
+      - name: games_with_rating
+        description: "Number of games with a non-null average user rating"
+        tests:
+          - not_null
+
+      - name: avg_rating
+        description: "Average user rating among games with a non-null rating"
+
+      - name: avg_review_count
+        description: "Average user rating count across games in the primary genre"
+
+      - name: age_4_plus
+        description: "Number of games rated 4+"
+
+      - name: age_9_plus
+        description: "Number of games rated 9+"
+
+      - name: age_12_plus
+        description: "Number of games rated 12+"
+
+      - name: age_17_plus
+        description: "Number of games rated 17+"

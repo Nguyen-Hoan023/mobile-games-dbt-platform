@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: mart_localization
+    description: >
+      Localization analysis mart for Xom business question Q9.
+      The grain is one row per primary genre for games with
+      non-null language information.
+
+    columns:
+      - name: primary_genre
+        description: "Primary genre of the games"
+        tests:
+          - not_null
+          - unique
+
+      - name: games
+        description: "Number of games with non-null language information"
+        tests:
+          - not_null
+
+      - name: avg_language_count
+        description: >
+          Average number of supported languages per game within
+          the primary genre.
+        tests:
+          - not_null
+
+      - name: max_language_count
+        description: >
+          Maximum number of supported languages for a game within
+          the primary genre.
+        tests:
+          - not_null

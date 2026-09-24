@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: mart_yearly_release_trends
+    description: >
+      Yearly release trend mart for Xom business question Q12.
+      The grain is one row per release year. The model summarizes
+      the number of games released, average rating, previous-year
+      release count, and year-over-year growth.
+
+    columns:
+      - name: release_year
+        description: "Calendar year extracted from the game release date"
+        tests:
+          - not_null
+          - unique
+
+      - name: games_released
+        description: "Number of games released during the year"
+        tests:
+          - not_null
+
+      - name: avg_rating
+        description: >
+          Average user rating for games released during the year.
+          May be null if no game released in the year has a rating.
+
+      - name: prev_year_games
+        description: >
+          Number of games released in the previous year.
+          Null for the first year in the dataset.
+
+      - name: yoy_growth_pct
+        description: >
+          Year-over-year percentage growth in game releases.
+          Null when there is no previous year value.

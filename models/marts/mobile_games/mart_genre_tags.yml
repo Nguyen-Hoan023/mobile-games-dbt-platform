@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: mart_genre_tags
+    description: >
+      Top 15 genre tags by number of games for the Xom Mobile Games Q15
+      business question. Each row represents one genre tag and contains
+      the number of games, average user rating, and rank.
+
+    columns:
+      - name: genre_tag
+        description: "Genre tag extracted from the multi-valued genres field"
+        tests:
+          - not_null
+          - unique
+
+      - name: games
+        description: "Number of games associated with the genre tag"
+        tests:
+          - not_null
+
+      - name: avg_rating
+        description: >
+          Average user rating among games associated with the genre tag.
+          May be null when the tag has no rated games.
+
+      - name: genre_rank
+        description: "Rank of the genre tag by number of games"
+        tests:
+          - not_null
+          - unique
