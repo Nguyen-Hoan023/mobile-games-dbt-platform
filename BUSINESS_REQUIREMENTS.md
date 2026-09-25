@@ -74,18 +74,18 @@ The following 15 business questions drive the design of the analytical marts and
 
 | Q | Business Question | Business Purpose | Target Mart | Key Metrics | Dashboard Section |
 |---|---|---|---|---|---|
-| **Q1** | Compare free vs paid games | Understand monetization distribution | `mart_pricing` | Count, %, avg rating, avg reviews | Research Tab 1: Pricing |
-| **Q2** | Top Developers / Publishers | Identify market leaders by portfolio size | `mart_developer_performance` | Game count per developer, top 10 | Research Tab 2: Genre & Developer |
-| **Q3** | Genre Performance (ratings & reviews) | Benchmark genres by user engagement | `mart_genre_performance` | Avg rating, avg review count per genre | Research Tab 2: Genre & Developer |
-| **Q4** | 2019 Release Analysis by Genre | Understand peak-year release patterns | `mart_release_2019_by_genre` | Game count by genre in 2019 | Research Tab 4: Release Trends |
-| **Q5** | Price Distribution of Paid Games | Understand pricing tiers | `mart_pricing` | Count per price bucket ($0.99, $1.99, etc.) | Research Tab 1: Pricing |
-| **Q6** | High-rated & Highly-reviewed Games | Find standout titles | `mart_game_performance` | Games with rating >= 4.5 AND high reviews | Research Tab 1: Pricing |
-| **Q7** | Age Rating × Genre | Audience segmentation by genre | `mart_genre_performance` | Cross-tab of age_rating × primary_genre | Research Tab 2: Genre & Developer |
-| **Q8** | Game Size by Genre | Understand download size patterns | `mart_size_by_genre` | Avg size_mb per genre | Research Tab 3: Size & Localization |
-| **Q9** | Localization (Language Support) | Identify globally-oriented titles | `mart_localization` | Avg languages per game, top combos | Research Tab 3: Size & Localization |
-| **Q10** | Description Keywords | Identify common marketing language | `mart_content_analysis` | Top keywords from description field | Research Tab 4: Release Trends |
-| **Q11** | Top Games per Genre | Genre-level leaderboards | `mart_game_performance` | Top N games ranked by reviews | Research Tab 2: Genre & Developer |
-| **Q12** | Release Trends / YoY | Understand catalog growth over time | `mart_yearly_release_trends` | Game count per year, YoY growth % | Research Tab 4: Release Trends |
-| **Q13** | Developer Consistency | Identify developers with consistent quality | `mart_developer_performance` | Std deviation of rating per developer | Research Tab 2: Genre & Developer |
-| **Q14** | Game Size vs Rating | Explore size-rating relationship | `mart_size_vs_rating` | Scatter: size_mb vs avg_rating | Research Tab 3: Size & Localization |
-| **Q15** | Genre Tags (Multi-genre games) | Understand genre overlap | `mart_genre_tags` | Frequency of genre tag combinations | Research Tab 2: Genre & Developer |
+| **Q1** | Compare free vs paid games | Understand monetization distribution | `mart_pricing` | Count, %, avg rating, avg reviews | Overview + Tab 1: Executive |
+| **Q2** | Top Developers / Publishers | Identify market leaders by portfolio size | `mart_developer_performance` | Game count per developer, top 10 | Overview + Tab 2: Market and Portfolio |
+| **Q3** | Genre Performance (ratings & reviews) | Benchmark genres by user engagement | `mart_genre_performance` | Avg rating, avg review count per genre | Overview + Tab 1: Executive |
+| **Q4** | 2019 Release Analysis by Genre | Understand peak-year release patterns | `mart_release_2019_by_genre` | Game count by genre in 2019 | Research Tab 4: Content and Discovery |
+| **Q5** | Price Distribution of Paid Games | Understand pricing tiers | `mart_pricing` | Count per price bucket ($0.99, $1.99, etc.) | Research Tab 1: Executive |
+| **Q6** | High-rated & Highly-reviewed Games | Find standout titles | `mart_game_performance` | Games with rating >= 4.5 AND high reviews | Tab 3: Quality and Trends |
+| **Q7** | Age Rating × Genre | Audience segmentation by genre | `mart_genre_performance` | Cross-tab of age_rating × primary_genre | Tab 3: Quality and Trends |
+| **Q8** | Game Size by Genre | Understand download size patterns | `mart_size_by_genre` | Avg size_mb per genre | Tab 2: Market and Portfolio |
+| **Q9** | Localization (Language Support) | Identify globally-oriented titles | `mart_localization` | Avg languages per game, top combos | Tab 2: Market and Portfolio |
+| **Q10** | Description Keywords | Identify common marketing language | `mart_content_analysis` | Top keywords from description field | Research Tab 4: Content and Discovery |
+| **Q11** | Top Games per Genre | Genre-level leaderboards | `mart_game_performance` | Top 3 games ranked by reviews per genre | Tab 3: Quality and Trends |
+| **Q12** | Release Trends / YoY | Understand catalog growth over time | `mart_yearly_release_trends` | Game count per year, YoY growth % | Overview + Tab 1: Executive + Tab 3: Quality and Trends |
+| **Q13** | Developer Consistency | Identify developers with consistent quality | `mart_developer_performance` | Std deviation of rating per developer | Research Tab 2: Market and Portfolio |
+| **Q14** | Game Size vs Rating | Explore size-rating relationship | `mart_size_vs_rating` | Scatter: size_mb vs avg_rating | Research Tab 3: Quality and Trends |
+| **Q15** | Genre Tags (Multi-genre games) | Understand genre overlap | `mart_genre_tags` | Frequency of genre tag combinations | Research Tab 2: Market and Portfolio |

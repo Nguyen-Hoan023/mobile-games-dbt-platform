@@ -82,13 +82,13 @@ A multi-tab analytical workspace covering all 15 business questions:
 | **Quality and Trends** | Game quality, age ratings, top titles, YoY growth, size vs rating | Q6, Q7, Q11, Q12, Q14 |
 | **Content and Discovery** | Keyword analysis from game descriptions | Q10 |
 
-![Research Board — Tab 1: Executive](images/Executive.png)
+![Research Board - Tab 1: Executive](images/Executive.png)
 
-![Research Board — Tab 2: Market and Portfolio](images/Market%20and%20Portfolio.jpeg)
+![Research Board - Tab 2: Market and Portfolio](images/Market%20and%20Portfolio.jpeg)
 
-![Research Board — Tab 3: Quality and Trends](images/Quality%20and%20Trends.jpeg)
+![Research Board - Tab 3: Quality and Trends](images/Quality%20and%20Trends.jpeg)
 
-![Research Board — Tab 4: Content and Discovery](images/Content%20and%20Discovery.png)
+![Research Board - Tab 4: Content and Discovery](images/Content%20and%20Discovery.png)
 
 ---
 
