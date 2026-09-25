@@ -71,6 +71,10 @@ High-level KPIs: total games in catalog, average user rating, total review volum
 
 ![Executive Overview Dashboard](images/mobile_games_overview.png)
 
+Designed for leadership and quick at-a-glance monitoring of the Mobile Games catalog. Provides high-level KPIs covering catalog size, user ratings, review volume, monetization mix, genre performance, developer presence, and release trends.
+
+- **Answers:** Q1 (Free vs Paid), Q2 (Top Developers), Q3 (Genre Performance), Q12 (Release Trends)
+
 ### Research Board — 4 Tabs
 
 A multi-tab analytical workspace covering all 15 business questions:
@@ -84,11 +88,27 @@ A multi-tab analytical workspace covering all 15 business questions:
 
 ![Research Board - Tab 1: Executive](images/Executive.png)
 
+Provides a high-level overview of the Mobile Games catalog, focusing on monetization, genre performance, and release trends.
+
+- **Answers:** Q1 (Free vs Paid), Q3 (Rating & Reviews by Genre), Q5 (Price Distribution), Q12 (Release Trends)
+
 ![Research Board - Tab 2: Market and Portfolio](images/Market%20and%20Portfolio.jpeg)
+
+Explores market leaders and the structural characteristics of the mobile game portfolio, including developer presence, release activity, game size, localization, developer consistency, and genre categorization.
+
+- **Answers:** Q2 (Top Developers), Q4 (2019 Releases by Genre), Q8 (Game Size by Genre), Q9 (Localization by Genre), Q13 (Developer Consistency), Q15 (Genre Tags)
 
 ![Research Board - Tab 3: Quality and Trends](images/Quality%20and%20Trends.jpeg)
 
+Analyzes game quality, performance, release trends, and the relationship between technical characteristics and user ratings.
+
+- **Answers:** Q6 (High-rated Titles with Meaningful Review Volume), Q7 (Age Rating by Genre), Q11 (Top 3 Games per Genre), Q12 (Release Trends and YoY Growth), Q14 (Game Size vs Rating)
+
 ![Research Board - Tab 4: Content and Discovery](images/Content%20and%20Discovery.png)
+
+Analyzes game content and gameplay characteristics based on keywords found in game descriptions, highlighting the prevalence of puzzle and multiplayer-related experiences across genres.
+
+- **Answers:** Q10 (Description Keywords: Puzzle and Multiplayer)
 
 ---
 
